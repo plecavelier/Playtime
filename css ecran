@@ -1,0 +1,65 @@
+body {
+	background-color : #ffcc00;
+	margin: 0; 
+}
+	
+h1 {
+	font-family : Myriad Pro, Arial ;
+	font-size : 2em;
+	color : #000000;
+	text-align:justify;
+}
+
+h2 {
+	font-family : Myriad Pro, Arial ;
+	font-size : 1,5em;
+	color : #000000;
+	text-align:justify;
+}
+
+h3 {
+	font-family : Myriad Pro, Arial ;
+	font-size : 1em;
+	color : #000000;
+	text-align:justify;
+}
+
+.centrage {text-align: center;}
+
+#show-picture{
+
+	position:absolute;
+	z-index:2;
+	opacity:0;
+
+	}
+	#visuel 
+	{
+		width: 100%;
+		max-width: 680px;
+		height: auto;
+		
+	}
+	
+.visuelLink {
+	display: block;
+	position: relative;
+}
+
+.visuelLink span {
+	display: block;
+	position: absolute;
+	left: 7%;
+	top: 12%;
+	width: 55%;
+}
+
+.visuelLink img {
+	width: 100%;
+	height: auto;
+}
+	
+	
+	
+@media screen and (max-width:580px){
+}
