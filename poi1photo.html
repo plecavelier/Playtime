@@ -4,6 +4,7 @@
         <meta charset="utf-8">
         <title> POI1photo</title>
         <link rel="stylesheet" href="styleecran.css" type="text/css" media="screen">
+        <script src="jquery-1.11.3.min.js"></script>
     </head>
 
     <body>
@@ -15,9 +16,13 @@
             </section>
 
             <section class="main-content">
-                <h2>
-                    Prenez une photo : <input type="file" id="take-picture" accept="image/*"> 
-                </h2>
+                <form id="form-picture" enctype="multipart/form-data">
+                	<h2>
+                   		Prenez une photo : <input type="file" name="take-picture" id="take-picture" accept="image/*">
+                	</h2>
+                	
+                	<progress id="avancement" value="0" max="100"></progress>
+              	</form>
                 <p>
                     <img src="about:blank"  id="show-picture">
                 </p>
@@ -26,6 +31,62 @@
                 </p>
 
                 <p id="error"></p>
+                
+                <script>
+                function progressHandlingFunction(e){
+                	console.log("progress");
+                    if(e.lengthComputable){
+                        $('progress').attr({value:e.loaded,max:e.total});
+                    }
+                }
+                
+                $(function () {
+                    $("#take-picture").change(function () {
+                        if (this.files && this.files[0]) {
+                            var reader = new FileReader();
+                            reader.onload = function(e) {
+                                $('#show-picture').attr('src', e.target.result);
+                            };
+                            reader.readAsDataURL(this.files[0]);
+                            
+                           	console.log($('#form-picture'));
+                           	console.log($('#form-picture')[0]);
+                            var formData = new FormData();
+                            formData.append(0, this.files[0]);
+                            
+                            
+                            console.log(formData);
+                            $.ajax({
+                                url: 'upload.php',  //Server script to process data
+                                type: 'POST',
+                                xhr: function() {  // Custom XMLHttpRequest
+                                    var myXhr = $.ajaxSettings.xhr();
+                                    if(myXhr.upload){ // Check if upload property exists
+                                        myXhr.upload.addEventListener('progress',progressHandlingFunction, false); // For handling the progress of the upload
+                                    }
+                                    return myXhr;
+                                },
+                                //Ajax events
+                                beforeSend: function() {
+                                	console.log("before send");
+                                },
+                                success: function(data) {
+                                	console.log("success : " + data);
+                                },
+                                error: function() {
+                                	console.log("error");
+                                },
+                                // Form data
+                                data: formData,
+                                //Options to tell jQuery not to process data or worry about content-type.
+                                cache: false,
+                                contentType: false,
+                                processData: false
+                            });
+                        }
+                    });
+                });
+                </script>
                 
             </section>
 
